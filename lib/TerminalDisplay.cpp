@@ -643,10 +643,15 @@ void TerminalDisplay::drawBackground(QPainter& painter, const QRect& rect, const
         QRegion contentsRegion = QRegion(rect).subtracted(scrollBarArea);
         QRect contentsRect = contentsRegion.boundingRect();
 
-        if ( HAVE_TRANSPARENCY && qAlpha(_blendColor) < 0xff && useOpacitySetting ) 
+        if (true) // HAVE_TRANSPARENCY && qAlpha(_blendColor) < 0xff && useOpacitySetting ) 
         {
             QColor color(backgroundColor);
             color.setAlpha(qAlpha(_blendColor));
+
+          if( color.blue()==0
+                &&color.red()==0
+                &&color.green()==0)
+            color.setAlpha(0);
 
             painter.save();
             painter.setCompositionMode(QPainter::CompositionMode_Source);
@@ -790,7 +795,7 @@ void TerminalDisplay::drawTextFragment(QPainter& painter ,
     const QColor backgroundColor = style->backgroundColor.color(_colorTable);
     
     // draw background if different from the display's background color
-    if ( backgroundColor != palette().background().color() )
+   // if ( backgroundColor != palette().background().color() )
         drawBackground(painter,rect,backgroundColor,
                        false /* do not use transparency */);
 
@@ -1277,7 +1282,7 @@ void TerminalDisplay::paint(QPainter *painter)
     // TODO This function might be optimized.
     QRect clipRect = painter->clipBoundingRect().toAlignedRect();
     QRect dirtyRect = clipRect.isValid() ? clipRect : contentsRect();
-    //drawBackground(*painter, rect, m_palette.background().color(), false /* use opacity setting */);
+    drawBackground(*painter, dirtyRect, m_palette.background().color(), false /* use opacity setting */);
     drawContents(*painter, dirtyRect);
 
     //drawInputMethodPreeditString(*painter, preeditRect());
