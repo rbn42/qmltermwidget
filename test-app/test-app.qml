@@ -27,6 +27,7 @@ Rectangle {
         font.family: "Monospace"
         font.pointSize: 12
         colorScheme: "cool-retro-term"
+        blinkingCursor:true
         session: QMLTermSession{
             id: mainsession
             initialWorkingDirectory: "$HOME"
