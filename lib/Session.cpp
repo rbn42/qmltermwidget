@@ -84,6 +84,7 @@ Session::Session(QObject* parent) :
 
     //create teletype for I/O with shell process
     _shellProcess = new Pty();
+    ptySlaveFd = _shellProcess->pty()->slaveFd();
 
     //create emulation backend
     _emulation = new Vt102Emulation();
@@ -98,9 +99,11 @@ Session::Session(QObject* parent) :
              this, SIGNAL( changeTabTextColorRequest( int ) ) );
     connect( _emulation, SIGNAL(profileChangeCommandReceived(const QString &)),
              this, SIGNAL( profileChangeCommandReceived(const QString &)) );
-    // TODO
-    // connect( _emulation,SIGNAL(imageSizeChanged(int,int)) , this ,
-    //        SLOT(onEmulationSizeChange(int,int)) );
+
+    connect(_emulation, SIGNAL(imageResizeRequest(QSize)),
+            this, SLOT(onEmulationSizeChange(QSize)));
+    connect(_emulation, SIGNAL(imageSizeChanged(int, int)),
+            this, SLOT(onViewSizeChange(int, int)));
 
     //connect teletype to emulation backend
     _shellProcess->setUtf8Mode(_emulation->utf8());
@@ -251,24 +254,8 @@ void Session::removeView(TerminalDisplay * widget)
 
 void Session::run()
 {
-    //check that everything is in place to run the session
-    if (_program.isEmpty()) {
-        qDebug() << "Session::run() - program to run not set.";
-    }
-    else {
-        qDebug() << "Session::run() - program:" << _program;
-    }
-
-    if (_arguments.isEmpty()) {
-        qDebug() << "Session::run() - no command line arguments specified.";
-    }
-    else {
-        qDebug() << "Session::run() - arguments:" << _arguments;
-    }
-
     // Upon a KPty error, there is no description on what that error was...
     // Check to see if the given program is executable.
-
 
     /* ok iam not exactly sure where _program comes from - however it was set to /bin/bash on my system
      * Thats bad for BSD as its /usr/local/bin/bash there - its also bad for arch as its /usr/bin/bash there too!
@@ -335,7 +322,20 @@ void Session::run()
     }
 
     _shellProcess->setWriteable(false);  // We are reachable via kwrited.
-    qDebug() << "started!";
+    emit started();
+}
+
+void Session::runEmptyPTY()
+{
+    _shellProcess->setFlowControlEnabled(_flowControl);
+    _shellProcess->setErase(_emulation->eraseChar());
+    _shellProcess->setWriteable(false);
+
+    // disconnet send data from emulator to internal terminal process
+    disconnect( _emulation,SIGNAL(sendData(const char *,int)),
+                _shellProcess, SLOT(sendData(const char *,int)) );
+
+    _shellProcess->setEmptyPTYProperties();
     emit started();
 }
 
@@ -467,8 +467,8 @@ void Session::activityStateSet(int state)
         if ( _monitorActivity ) {
             //FIXME:  See comments in Session::monitorTimerDone()
             if (!_notifiedActivity) {
-                emit activity();
                 _notifiedActivity=true;
+                emit activity();
             }
         }
     }
@@ -487,9 +487,9 @@ void Session::onViewSizeChange(int /*height*/, int /*width*/)
 {
     updateTerminalSize();
 }
-void Session::onEmulationSizeChange(int lines , int columns)
+void Session::onEmulationSizeChange(QSize size)
 {
-    setSize( QSize(lines,columns) );
+    setSize(size);
 }
 
 void Session::updateTerminalSize()
@@ -972,6 +972,10 @@ bool Session::updateForegroundProcessInfo()
 int Session::processId() const
 {
     return _shellProcess->pid();
+}
+int Session::getPtySlaveFd() const
+{
+    return ptySlaveFd;
 }
 
 SessionGroup::SessionGroup()
