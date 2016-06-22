@@ -648,9 +648,9 @@ void TerminalDisplay::drawBackground(QPainter& painter, const QRect& rect, const
             QColor color(backgroundColor);
             color.setAlpha(qAlpha(_blendColor));
 
-          if( color.blue()==0
-                &&color.red()==0
-                &&color.green()==0)
+          if( color.blue()==3
+                &&color.red()==1
+                &&color.green()==2)
             color.setAlpha(0);
 
             painter.save();
