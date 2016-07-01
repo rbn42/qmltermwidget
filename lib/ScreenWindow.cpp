@@ -120,6 +120,11 @@ QString ScreenWindow::selectedText( bool preserveLineBreaks ) const
     return _screen->selectedText( preserveLineBreaks );
 }
 
+QString ScreenWindow::screenText( bool preserveLineBreaks ) const
+{
+    return _screen->screenText( preserveLineBreaks );
+}
+
 void ScreenWindow::getSelectionStart( int& column , int& line )
 {
     _screen->getSelectionStart(column,line);
