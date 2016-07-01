@@ -1108,6 +1108,19 @@ QString Screen::selectedText(bool preserveLineBreaks) const
     return result;
 }
 
+QString Screen::screenText(bool preserveLineBreaks) const
+{
+    QString result;
+    QTextStream stream(&result, QIODevice::ReadWrite);
+
+    PlainTextDecoder decoder;
+    decoder.begin(&stream);
+    writeScreenToStream(&decoder , preserveLineBreaks);
+    decoder.end();
+
+    return result;
+}
+
 bool Screen::isSelectionValid() const
 {
     return selTopLeft >= 0 && selBottomRight >= 0;
@@ -1119,6 +1132,14 @@ void Screen::writeSelectionToStream(TerminalCharacterDecoder* decoder ,
     if (!isSelectionValid())
         return;
     writeToStream(decoder,selTopLeft,selBottomRight,preserveLineBreaks);
+}
+
+void Screen::writeScreenToStream(TerminalCharacterDecoder* decoder , 
+        bool preserveLineBreaks) const
+{
+    if (!isSelectionValid())
+        return;
+    writeToStream(decoder,0,lines*columns-1,preserveLineBreaks);
 }
 
 void Screen::writeToStream(TerminalCharacterDecoder* decoder, 

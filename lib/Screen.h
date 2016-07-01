@@ -446,6 +446,13 @@ public:
      */
     QString selectedText(bool preserveLineBreaks) const;
         
+    /** 
+     * Convenience method.  Returns the text of the current screen. 
+     * @param preserveLineBreaks Specifies whether new line characters should 
+     * be inserted into the returned text at the end of each terminal line.
+     */
+    QString screenText(bool preserveLineBreaks) const;
+
     /**
      * Copies part of the output to a stream.
      *
@@ -466,6 +473,19 @@ public:
      * be inserted into the returned text at the end of each terminal line. 
      */
     void writeSelectionToStream(TerminalCharacterDecoder* decoder , bool
+                                preserveLineBreaks = true) const;
+
+
+    /**
+     * Copies the characters of the current screen into a stream.
+     *
+     * @param decoder A decoder which converts terminal characters into text.  
+     * PlainTextDecoder is the most commonly used decoder which converts characters 
+     * into plain text with no formatting.
+     * @param preserveLineBreaks Specifies whether new line characters should 
+     * be inserted into the returned text at the end of each terminal line. 
+     */
+    void writeScreenToStream(TerminalCharacterDecoder* decoder , bool
                                 preserveLineBreaks = true) const;
 
     /**

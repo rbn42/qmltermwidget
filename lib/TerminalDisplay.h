@@ -476,6 +476,10 @@ public slots:
 
     /** Copies the selected text to the clipboard. */
     void copyClipboard();
+
+    /** Copies the current screen's text to the clipboard. */
+    void copyScreenClipboard();
+
     /** 
      * Pastes the content of the clipboard into the 
      * display.
