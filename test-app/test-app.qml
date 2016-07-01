@@ -12,6 +12,11 @@ Rectangle {
     }
 
     Action{
+        onTriggered: terminal.copyScreenClipboard();
+        shortcut: "Ctrl+Shift+S"
+    }
+
+    Action{
         onTriggered: terminal.pasteClipboard();
         shortcut: "Ctrl+Shift+V"
     }
