@@ -1115,7 +1115,7 @@ QString Screen::screenText(bool preserveLineBreaks) const
 
     PlainTextDecoder decoder;
     decoder.begin(&stream);
-    writeScreenToStream(&decoder , preserveLineBreaks);
+    writeToStream(&decoder,0,lines*columns,preserveLineBreaks);
     decoder.end();
 
     return result;
@@ -1132,14 +1132,6 @@ void Screen::writeSelectionToStream(TerminalCharacterDecoder* decoder ,
     if (!isSelectionValid())
         return;
     writeToStream(decoder,selTopLeft,selBottomRight,preserveLineBreaks);
-}
-
-void Screen::writeScreenToStream(TerminalCharacterDecoder* decoder , 
-        bool preserveLineBreaks) const
-{
-    if (!isSelectionValid())
-        return;
-    writeToStream(decoder,0,lines*columns-1,preserveLineBreaks);
 }
 
 void Screen::writeToStream(TerminalCharacterDecoder* decoder, 
