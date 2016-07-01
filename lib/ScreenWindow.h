@@ -215,6 +215,13 @@ public:
      */
     QString selectedText( bool preserveLineBreaks ) const;
 
+    /**
+     * Returns the text of the current Screen.
+     *
+     * @param preserveLineBreaks See Screen::screenText()
+     */
+    QString screenText( bool preserveLineBreaks ) const;
+
 public slots:
     /** 
      * Notifies the window that the contents of the associated terminal screen have changed.
