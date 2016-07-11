@@ -471,6 +471,11 @@ void QTermWidget::copyClipboard()
     m_impl->m_terminalDisplay->copyClipboard();
 }
 
+void QTermWidget::copyScreenClipboard()
+{
+    m_impl->m_terminalDisplay->copyScreenClipboard();
+}
+
 void QTermWidget::pasteClipboard()
 {
     m_impl->m_terminalDisplay->pasteClipboard();

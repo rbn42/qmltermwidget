@@ -446,6 +446,13 @@ public:
      */
     QString selectedText(bool preserveLineBreaks) const;
         
+    /** 
+     * Convenience method.  Returns the text of the current screen. 
+     * @param preserveLineBreaks Specifies whether new line characters should 
+     * be inserted into the returned text at the end of each terminal line.
+     */
+    QString screenText(bool preserveLineBreaks) const;
+
     /**
      * Copies part of the output to a stream.
      *

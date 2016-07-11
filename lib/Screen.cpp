@@ -1108,6 +1108,22 @@ QString Screen::selectedText(bool preserveLineBreaks) const
     return result;
 }
 
+QString Screen::screenText(bool preserveLineBreaks) const
+{
+    QString result;
+    QTextStream stream(&result, QIODevice::ReadWrite);
+
+    PlainTextDecoder decoder;
+    decoder.begin(&stream);
+    int top =history->getLines();//scrolledLines(); //_scrolledLines; //
+    int bottom = top+lines;
+    for (int y=top;y<=bottom;y++)
+        copyLineToStream( y,0,-1,&decoder,true,true);
+    decoder.end();
+
+    return result;
+}
+
 bool Screen::isSelectionValid() const
 {
     return selTopLeft >= 0 && selBottomRight >= 0;

@@ -185,6 +185,9 @@ public slots:
     // Copy selection to clipboard
     void copyClipboard();
 
+    // Copy the current screen to clipboard
+    void copyScreenClipboard();
+
     // Paste clipboard to terminal
     void pasteClipboard();
 
