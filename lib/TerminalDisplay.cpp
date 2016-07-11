@@ -504,6 +504,12 @@ static void drawLineChar(QPainter& paint, int x, int y, int w, int h, uchar code
     int ex = x + w - 1;
     int ey = y + h - 1;
 
+    //unicode 2502
+    if (2==code){
+        paint.drawLine(cx, y, cx, ey);
+        return;
+    }
+
     quint32 toDraw = LineChars[code];
 
     //Top _lines:
