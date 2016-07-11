@@ -515,6 +515,13 @@ static void drawLineChar(QPainter& paint, int x, int y, int w, int h, uchar code
     int ex = x + w - 1;
     int ey = y + h - 1;
 
+
+    //unicode 2502
+    if (2==code){
+        paint.drawLine(cx, y, cx, ey);
+        return;
+    }
+
     quint32 toDraw = LineChars[code];
 
     //Top _lines:
@@ -776,10 +783,10 @@ void TerminalDisplay::drawCharacters(QPainter& painter,
     }
 
     // draw text
-   // if ( isLineCharString(text) )
-   //     drawLineCharString(painter,rect.x(),rect.y(),text,style);
-   // else
-   // {
+    if ( isLineCharString(text) )
+        drawLineCharString(painter,rect.x(),rect.y(),text,style);
+    else
+    {
         // the drawText(rect,flags,string) overload is used here with null flags
         // instead of drawText(rect,string) because the (rect,string) overload causes
         // the application's default layout direction to be used instead of
@@ -790,7 +797,7 @@ void TerminalDisplay::drawCharacters(QPainter& painter,
             painter.drawText(rect,0,text);
         else
             painter.drawText(rect, Qt::AlignBottom, LTR_OVERRIDE_CHAR + text);
-    //}
+    }
 }
 
 void TerminalDisplay::drawTextFragment(QPainter& painter ,
