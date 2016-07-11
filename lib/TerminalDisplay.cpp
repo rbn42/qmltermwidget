@@ -776,10 +776,10 @@ void TerminalDisplay::drawCharacters(QPainter& painter,
     }
 
     // draw text
-    if ( isLineCharString(text) )
-        drawLineCharString(painter,rect.x(),rect.y(),text,style);
-    else
-    {
+   // if ( isLineCharString(text) )
+   //     drawLineCharString(painter,rect.x(),rect.y(),text,style);
+   // else
+   // {
         // the drawText(rect,flags,string) overload is used here with null flags
         // instead of drawText(rect,string) because the (rect,string) overload causes
         // the application's default layout direction to be used instead of
@@ -790,7 +790,7 @@ void TerminalDisplay::drawCharacters(QPainter& painter,
             painter.drawText(rect,0,text);
         else
             painter.drawText(rect, Qt::AlignBottom, LTR_OVERRIDE_CHAR + text);
-    }
+    //}
 }
 
 void TerminalDisplay::drawTextFragment(QPainter& painter ,
