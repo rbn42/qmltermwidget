@@ -2707,7 +2707,24 @@ void TerminalDisplay::inputMethodEvent( QInputMethodEvent* event )
 void TerminalDisplay::inputMethodQuery(QInputMethodQueryEvent *event)
 {
     event->setValue(Qt::ImEnabled, true);
-    event->setValue(Qt::ImHints, QVariant(Qt::ImhNoPredictiveText |  Qt::ImhNoAutoUppercase));
+    //event->setValue(Qt::ImHints, QVariant(Qt::ImhNoPredictiveText |  Qt::ImhNoAutoUppercase));
+    Qt::InputMethodQuery q;
+
+    q=Qt::ImMicroFocus;
+    event->setValue(q, TerminalDisplay::inputMethodQuery(q));
+
+    q=Qt::ImFont;
+    event->setValue(q, TerminalDisplay::inputMethodQuery(q));
+
+    q=Qt::ImCursorPosition;
+    event->setValue(q, TerminalDisplay::inputMethodQuery(q));
+
+    q=Qt::ImSurroundingText;
+    event->setValue(q, TerminalDisplay::inputMethodQuery(q));
+
+    q=Qt::ImCurrentSelection;
+    event->setValue(q, TerminalDisplay::inputMethodQuery(q));
+
     event->accept();
 }
 
