@@ -3294,11 +3294,15 @@ void TerminalDisplay::setColorScheme(const QString &name)
         // avoid legacy (int) solution
         if (!availableColorSchemes().contains(name)){
 
-            const bool isFile = QFile::exists(name);
+            QString path(name);
+            if (path.startsWith ("~/"))
+                path.replace (0, 1, QDir::homePath());
+ 
+            const bool isFile = QFile::exists(path);
             if(isFile&&ColorSchemeManager::instance()->
-                        loadCustomColorScheme(name))
+                        loadCustomColorScheme(path))
                 cs = ColorSchemeManager::instance()->
-                    findColorScheme(QFileInfo(name).baseName());
+                    findColorScheme(QFileInfo(path).baseName());
             else
                 cs = ColorSchemeManager::instance()->defaultColorScheme();
         }
