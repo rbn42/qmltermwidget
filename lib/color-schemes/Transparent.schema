@@ -30,7 +30,7 @@ title Transparent
 
 color 0 255 255 255 0 0 # regular foreground color (White)
 
-color 1 1 2 3 1 0 # A specified color marked as transparent
+color 1 1 2 0 1 0 # A specified color marked as transparent
 
 
 

@@ -14,7 +14,7 @@ title Black on White
 #      V V--color--V  V V
 
 color  0   0   0   0  0 0  # regular   foreground color (Black)
-color  1   1   2   3  1 0  # transparent
+color  1   1   2   0  1 0  # transparent
 
 color  2   0   0   0  0 0  # regular   color 0 Black
 color  3 178  24  24  0 0  # regular   color 1 Red

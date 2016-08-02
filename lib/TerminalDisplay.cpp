@@ -654,10 +654,13 @@ void TerminalDisplay::drawBackground(QPainter& painter, const QRect& rect, const
             QColor color(backgroundColor);
             color.setAlpha(qAlpha(_blendColor));
 
-          if( color.blue()==3
-                &&color.red()==1
-                &&color.green()==2)
-            color.setAlpha(0);
+            if(color.blue()<5
+                    &&color.red()==1
+                    &&color.green()==2){
+                int level=color.blue();
+                color=QColor("white");
+                color.setAlpha(255/5*level);
+            }
 
             painter.save();
             painter.setCompositionMode(QPainter::CompositionMode_Source);
