@@ -32,6 +32,7 @@
 #include <QTime>
 #include <QFile>
 #include <QGridLayout>
+#include <QDir>
 #include <QLabel>
 #include <QLayout>
 #include <QPainter>
@@ -658,6 +659,16 @@ void TerminalDisplay::drawBackground(QPainter& painter, const QRect& rect, const
                 &&color.red()==1
                 &&color.green()==2)
             color.setAlpha(0);
+
+          for(int level=0;level<5;level++){
+              int c=level*10+98;
+              if( color.blue()==c
+                    &&color.red()==c
+                    &&color.green()==c){
+                  color=QColor("white");
+                color.setAlpha(level*255/5);
+              }
+          }
 
             painter.save();
             painter.setCompositionMode(QPainter::CompositionMode_Source);
@@ -3281,8 +3292,16 @@ void TerminalDisplay::setColorScheme(const QString &name)
     if ( name != _colorScheme ) {
         const ColorScheme *cs;
         // avoid legacy (int) solution
-        if (!availableColorSchemes().contains(name))
-            cs = ColorSchemeManager::instance()->defaultColorScheme();
+        if (!availableColorSchemes().contains(name)){
+
+            const bool isFile = QFile::exists(name);
+            if(isFile&&ColorSchemeManager::instance()->
+                        loadCustomColorScheme(name))
+                cs = ColorSchemeManager::instance()->
+                    findColorScheme(QFileInfo(name).baseName());
+            else
+                cs = ColorSchemeManager::instance()->defaultColorScheme();
+        }
         else
             cs = ColorSchemeManager::instance()->findColorScheme(name);
 
