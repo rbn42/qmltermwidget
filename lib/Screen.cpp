@@ -1115,8 +1115,8 @@ QString Screen::screenText(bool preserveLineBreaks) const
 
     PlainTextDecoder decoder;
     decoder.begin(&stream);
-    int top =history->getLines();//scrolledLines(); //_scrolledLines; //
-    int bottom = top+lines;
+    int top =0;//history->getLines();//scrolledLines(); //_scrolledLines; //
+    int bottom = history->getLines()+lines;
     for (int y=top;y<=bottom;y++)
         copyLineToStream( y,0,-1,&decoder,true,true);
     decoder.end();
