@@ -523,6 +523,11 @@ bool KDE3ColorSchemeReader::readColorLine(const QString& line,ColorScheme* schem
     ColorEntry entry;
     entry.color = QColor(red,green,blue);
     entry.transparent = ( transparent != 0 );
+
+    //mark transparency
+    if(entry.transparent)
+        entry.color.setAlpha(254);
+
     entry.fontWeight = ( bold != 0 ) ? ColorEntry::Bold : ColorEntry::UseCurrentFormat;
 
     scheme->setColorTableEntry(index,entry);

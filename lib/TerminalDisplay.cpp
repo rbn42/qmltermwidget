@@ -655,9 +655,8 @@ void TerminalDisplay::drawBackground(QPainter& painter, const QRect& rect, const
             QColor color(backgroundColor);
             color.setAlpha(qAlpha(_blendColor));
 
-          if( color.blue()==3
-                &&color.red()==1
-                &&color.green()==2)
+            //marked transparency
+            if (254==backgroundColor.alpha())
             color.setAlpha(0);
 
           for(int level=0;level<5;level++){
