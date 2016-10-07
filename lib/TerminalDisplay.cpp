@@ -505,9 +505,30 @@ static void drawLineChar(QPainter& paint, int x, int y, int w, int h, uchar code
     int ex = x + w - 1;
     int ey = y + h - 1;
 
+    //出问题的可能是因为drawpoint并不只是一个像素
     //unicode 2502
     if (2==code){
         paint.drawLine(cx, y, cx, ey);
+        return;
+    //unicode 250C
+    }else if (12==code){
+        paint.drawLine(cx, cy, cx, ey);//bot
+        paint.drawLine(cx, cy, ex, cy);//right
+        return;
+    //unicode 2510
+    }else if (16==code){
+        paint.drawLine(cx, cy, cx, ey);//bot
+        paint.drawLine(x, cy, cx, cy);//left
+        return;
+    //unicode 2514
+    }else if (20==code){
+        paint.drawLine(cx, y, cx, cy);//top
+        paint.drawLine(cx, cy, ex, cy);//right
+        return;
+    //unicode 2518
+    }else if (24==code){
+        paint.drawLine(cx, y, cx, cy);//top
+        paint.drawLine(x, cy, cx, cy);//left
         return;
     }
 
