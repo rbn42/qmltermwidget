@@ -201,6 +201,8 @@ public:
     /** Specifies whether or not the cursor blinks. */
     void setBlinkingCursor(bool blink);
 
+    void setAllowDrawLineChar(bool blink);
+
     /** Specifies whether or not text can blink. */
     void setBlinkingTextEnabled(bool blink);
 

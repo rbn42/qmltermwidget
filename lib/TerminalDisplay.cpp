@@ -339,6 +339,7 @@ TerminalDisplay::TerminalDisplay(QQuickItem *parent)
 ,_cursorBlinking(false)
 ,_hasBlinkingCursor(false)
 ,_allowBlinkingText(true)
+,_allowDrawLineChar(true)
 ,_ctrlDrag(false)
 ,_tripleClickMode(SelectWholeLine)
 ,_isFixedSize(false)
@@ -1256,7 +1257,7 @@ void TerminalDisplay::showResizeNotification()
 
 void TerminalDisplay::setAllowDrawLineChar(bool blink)
 {
-  _allowDrawLineChar=true;
+  _allowDrawLineChar=blink;
 }
 
 void TerminalDisplay::setBlinkingCursor(bool blink)
