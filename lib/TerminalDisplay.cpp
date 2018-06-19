@@ -799,7 +799,7 @@ void TerminalDisplay::drawCharacters(QPainter& painter,
     }
 
     // draw text
-    if ( isLineCharString(text) )
+    if ( isLineCharString(text) && _allowDrawLineChar )
         drawLineCharString(painter,rect.x(),rect.y(),text,style);
     else
     {
@@ -1252,6 +1252,11 @@ void TerminalDisplay::showResizeNotification()
 //     _resizeWidget->show();
 //     _resizeTimer->start(1000);
 //  }
+}
+
+void TerminalDisplay::setAllowDrawLineChar(bool blink)
+{
+  _allowDrawLineChar=true;
 }
 
 void TerminalDisplay::setBlinkingCursor(bool blink)

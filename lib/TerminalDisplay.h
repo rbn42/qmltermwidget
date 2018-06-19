@@ -104,6 +104,8 @@ class KONSOLEPRIVATE_EXPORT TerminalDisplay : public QQuickPaintedItem
    Q_PROPERTY(bool blinkingCursor        READ blinkingCursor       WRITE setBlinkingCursor)
    Q_PROPERTY(bool blinkingTextEnabled        WRITE setBlinkingTextEnabled)
 
+   Q_PROPERTY(bool allowDrawLineChar       WRITE setAllowDrawLineChar)
+
 public:
     /** Constructs a new terminal display widget with the specified parent. */
     TerminalDisplay(QQuickItem *parent=0);
@@ -835,6 +837,7 @@ private:
     bool _hasBlinkingCursor;  // has blinking cursor enabled
     bool _allowBlinkingText;  // allow text to blink
     bool _ctrlDrag;           // require Ctrl key for drag
+    bool _allowDrawLineChar;  // allow draw line char
     TripleClickMode _tripleClickMode;
     bool _isFixedSize; //Columns / lines are locked.
     QTimer* _blinkTimer;  // active when hasBlinker
