@@ -217,7 +217,9 @@ unsigned short Konsole::vt100_graphics[32] =
 void TerminalDisplay::fontChange(const QFont&)
 {
   QFontMetrics fm(font());
-  _fontHeight = fm.height() + _lineSpacing;
+  //_fontHeight = fm.height() + _lineSpacing;
+  //TODO fm.height受-1 leading影响,16px字体的fm.height是17.所以这里修改回到16,但是不能应对变动的 leading或者其他变量
+  _fontHeight = fm.height() - 1 + _lineSpacing; 
 
   // waba TerminalDisplay 1.123:
   // "Base character width on widest ASCII character. This prevents too wide
@@ -1604,7 +1606,9 @@ void TerminalDisplay::drawContents(QPainter &paint, const QRect &rect)
          paint.setWorldMatrix(textScale, true);
 
          //calculate the area in which the text will be drawn
-         QRect textArea = QRect( _leftMargin+tLx+_fontWidth*x , _topMargin+tLy+_fontHeight*y , _fontWidth*len , _fontHeight);
+         //QRect textArea = QRect( _leftMargin+tLx+_fontWidth*x , _topMargin+tLy+_fontHeight*y , _fontWidth*len , _fontHeight);
+         //测试需要+ 2 才能完整的绘制字符,未知的原因
+         QRect textArea = QRect( _leftMargin+tLx+_fontWidth*x , _topMargin+tLy+_fontHeight*y , _fontWidth*len , _fontHeight + 2);
         
          //move the calculated area to take account of scaling applied to the painter.
          //the position of the area from the origin (0,0) is scaled 
