@@ -101,11 +101,11 @@ class KONSOLEPRIVATE_EXPORT TerminalDisplay : public QQuickPaintedItem
    Q_PROPERTY(bool antialiasText        READ antialias       WRITE setAntialias)
    Q_PROPERTY(QStringList availableColorSchemes READ availableColorSchemes NOTIFY availableColorSchemesChanged)
 
-   Q_PROPERTY(bool blinkingCursor        READ blinkingCursor       WRITE setBlinkingCursor)
-   Q_PROPERTY(bool blinkingTextEnabled        WRITE setBlinkingTextEnabled)
+   Q_PROPERTY(bool blinkingCursor       READ blinkingCursor       WRITE setBlinkingCursor)
+   Q_PROPERTY(bool blinkingTextEnabled  WRITE setBlinkingTextEnabled)
 
-   Q_PROPERTY(bool allowDrawLineChar       WRITE setAllowDrawLineChar)
-   Q_PROPERTY(bool lineOffset              WRITE setLineOffset)
+   Q_PROPERTY(bool allowDrawLineChar    WRITE setAllowDrawLineChar)
+   Q_PROPERTY(int lineOffset            WRITE setLineOffset)
 
 public:
     /** Constructs a new terminal display widget with the specified parent. */
@@ -842,7 +842,7 @@ private:
     bool _allowBlinkingText;  // allow text to blink
     bool _ctrlDrag;           // require Ctrl key for drag
     bool _allowDrawLineChar;  // allow draw line char
-    bool _lineOffset;  // line offset
+    int _lineOffset;  // line offset
     TripleClickMode _tripleClickMode;
     bool _isFixedSize; //Columns / lines are locked.
     QTimer* _blinkTimer;  // active when hasBlinker
