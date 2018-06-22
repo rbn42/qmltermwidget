@@ -342,6 +342,7 @@ TerminalDisplay::TerminalDisplay(QQuickItem *parent)
 ,_hasBlinkingCursor(false)
 ,_allowBlinkingText(true)
 ,_allowDrawLineChar(true)
+,_lineOffset(0)
 ,_ctrlDrag(false)
 ,_tripleClickMode(SelectWholeLine)
 ,_isFixedSize(false)
@@ -1262,6 +1263,11 @@ void TerminalDisplay::setAllowDrawLineChar(bool blink)
   _allowDrawLineChar=blink;
 }
 
+void TerminalDisplay::setLineOffset(int offset)
+{
+  _lineOffset=offset;
+}
+
 void TerminalDisplay::setBlinkingCursor(bool blink)
 {
   _hasBlinkingCursor=blink;
@@ -1608,7 +1614,7 @@ void TerminalDisplay::drawContents(QPainter &paint, const QRect &rect)
          //calculate the area in which the text will be drawn
          //QRect textArea = QRect( _leftMargin+tLx+_fontWidth*x , _topMargin+tLy+_fontHeight*y , _fontWidth*len , _fontHeight);
          //测试需要+ 2 才能完整的绘制字符,未知的原因
-         QRect textArea = QRect( _leftMargin+tLx+_fontWidth*x , _topMargin+tLy+_fontHeight*y , _fontWidth*len , _fontHeight + 2);
+         QRect textArea = QRect( _leftMargin+tLx+_fontWidth*x , _topMargin+tLy+_fontHeight*y , _fontWidth*len , _fontHeight + _lineOffset);
         
          //move the calculated area to take account of scaling applied to the painter.
          //the position of the area from the origin (0,0) is scaled 
